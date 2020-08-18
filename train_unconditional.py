@@ -84,7 +84,15 @@ def train():
     config.log_device_placement = False
 
     with tf.Session(config=config) as sess:
-      sess.run(tf.global_variables_initializer())
+      model_path = LOG_DIR
+      if tf.gfile.Exists(os.path.join(model_path, "checkpoint")):
+        ckpt = tf.train.get_checkpoint_state(model_path)
+        restorer = tf.train.Saver()
+        restorer.restore(sess, ckpt.model_checkpoint_path)
+        print ("Load parameters from checkpoint.")
+      else: 
+        print ("New parameters generate.")
+        sess.run(tf.global_variables_initializer())
 
       # Load training data into memeory
       points_train = provider.loadPC("./data/ShapeNet7/{}_train.npy".format(FLAGS.cat), NUM_POINT)
