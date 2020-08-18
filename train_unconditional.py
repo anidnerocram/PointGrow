@@ -95,7 +95,7 @@ def train():
         sess.run(tf.global_variables_initializer())
 
       # Load training data into memeory
-      points_train = provider.loadPC("./data/ShapeNet7/{}_train.npy".format(FLAGS.cat), NUM_POINT)
+      points_train = provider.loadPC("/content/drive/My Drive/NPY_train_test/{}_train.npy".format(FLAGS.cat), NUM_POINT)
       labels_train = provider.voxelizeData(points_train, VOL_DIM) # int, ranging from 0 to VOL_DIM-1
       points_train = labels_train / float(VOL_DIM) # fload, ranging from 0.0 to 1.0
       points_train = points_train.astype(np.float32)
